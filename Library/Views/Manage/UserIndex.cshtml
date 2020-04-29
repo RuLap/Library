@@ -1,0 +1,38 @@
+﻿@using Library.Models
+@using Microsoft.AspNet.Identity
+
+@model UserIndexViewModel
+
+@{
+    ViewBag.Title = "Личный кабинет";
+}
+
+<h2>Здравствуйте, @Model.FirstName</h2>
+
+<h4>Имя: @Model.FirstName</h4>
+<h4>Фамилия: @Model.LastName</h4>
+<h4>Email: @Model.Email</h4>
+<a class="btn btn-warning" href="@Url.Action("EditUser", new { userId = User.Identity.GetUserId() })">Редактировать</a>
+
+<h2>Выданные книги</h2>
+
+@if (Model.Books is null || Model.Books.Count() == 0)
+{
+    <h3>Отсутствуют</h3>
+}
+
+else
+{
+    <table width="30%" style="border-collapse: collapse; width: auto" border="1">
+        <tr><th align="center">Название книги</th><th align="center">Автор(-ы)</th><th>Дата выдачи</th></tr>
+        @foreach (var book in Model.Books)
+        {
+            <tr style="padding-bottom: 10px">
+                <td align="center" style="padding: 3px">@book.Name</td>
+                <td align="center" style="padding: 3px">@book.Authors</td>
+                <td align="center" style="padding: 3px">@String.Format("{0:dd.MM.yyyy}", book.GiveDate)</td>
+            </tr>
+        }
+    </table>
+}
+

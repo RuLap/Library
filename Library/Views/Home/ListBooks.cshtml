@@ -1,0 +1,45 @@
+﻿@using Library.Models
+@using Library.Models.Entities
+@using Library.HtmlHelpers
+@model BooksListViewModel
+@{
+    ViewBag.Title = "Книги";
+}
+
+<h2>Книги</h2>
+
+<form asp-controller="Home" asp-action="ListBooks">
+    <p>
+        <input type="text" name="SearchString" value="@Session["Search"].ToString()" />
+        <input type="submit" value="Искать" />
+    </p>
+</form>
+@foreach (Book book in Model.Books)
+{
+<div>
+    @if (System.Web.HttpContext.Current.User.IsInRole("admin"))
+    {
+        <a href="@Url.Action("AdminConcreteBook", "Manage", new { id = book.BookId })"><h3>@book.Name</h3></a>
+    }
+    else
+    {
+        <h3>@book.Name</h3>
+    }
+
+    <p>@book.Authors</p>
+    @if (book.UserId is null)
+    {
+        <h4>&#9989 - в доступе</h4>
+    }
+    else
+    {
+        <h4>&#10060 - на руках у пользователя @book.User.FirstName @book.User.LastName</h4>
+    }
+    <img width="300" height="440" src="@Url.Action("GetPhoto", "Home", new { id = book.BookId })" />
+</div>
+<hr style="background-color:#000000; color:#000000; border:none; height:1px"/>
+}
+
+<div style="margin-top:15px">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("ListBooks", new { page = x }))
+</div>

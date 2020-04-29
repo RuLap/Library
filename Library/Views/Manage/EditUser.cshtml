@@ -1,0 +1,42 @@
+﻿@using Library.Models
+@model ApplicationUser
+
+@{
+    ViewBag.Title = "Редактирование пользователя";
+}
+
+<h2>Редактирование информации о пользователе</h2>
+
+@using (Html.BeginForm("EditUser", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.HiddenFor(m => m.Id)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, "Email", new { @class = "col-md-1 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, "Имя", new { @class = "col-md-1 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, "Фамилия", new { @class = "col-md-1 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Сохранить" class="btn btn-success" />
+        <a class="btn btn-danger" href="@Url.Action(Session["LastAction"].ToString(), "Manage", new { userId = Model.Id })">Отменить изменения и вернуться</a>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

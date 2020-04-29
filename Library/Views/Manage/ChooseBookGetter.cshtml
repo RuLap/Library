@@ -1,0 +1,25 @@
+﻿@using Library.Models
+@using Library.HtmlHelpers
+
+@model UsersListViewModel
+
+@{
+    ViewBag.Title = "Выбор получателя";
+}
+
+<h2>Выберите получателя книги</h2>
+
+<form asp-controller="Home" asp-action="ListBooks">
+    <p style="padding-bottom: 10px">
+        <input type="text" name="SearchString">
+        <input type="submit" value="Искать" />
+    </p>
+</form>
+
+<div>
+    @Html.UserLinks(Model.Users, x => Url.Action("GiveBook", new { bookId = ViewBag.BookId, userId = x }))
+</div>
+
+<div>
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("ChooseBookGetter", new { bookId = ViewBag.BookId, page = x }))
+</div>

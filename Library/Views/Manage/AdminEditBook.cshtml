@@ -1,0 +1,47 @@
+﻿@using Library.Models
+@model Book
+
+@{
+    ViewBag.Title = "Редактирование книги";
+}
+
+<h2>Редактирование книги</h2>
+
+@using (Html.BeginForm("AdminEditBook", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+
+    @Html.HiddenFor(m => m.BookId)
+    @Html.HiddenFor(m => m.Photo)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, "Название", new { @class = "col-md-1 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Authors, "Авторы", new { @class = "col-md-1 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Authors, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Authors, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Photo, "Фото", new { @class = "col-md-1 control-label" })
+        <div class="col-md-10">
+            <input type="file" name="uploadPhoto" />
+            <img class="thumbnail" width="150" height="200" style="margin-top:10px" src="@Url.Action("GetPhoto", "Home", new { id = Model.BookId })" />
+        </div>
+    </div>
+
+    <div>
+        <input type="submit" value="Сохранить" class="btn btn-success" />
+        @Html.ActionLink("Отменить изменения и вернуться назад", Session["LastAction"].ToString(), new { id = Model.BookId }, new { @class = "btn btn-danger" })
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

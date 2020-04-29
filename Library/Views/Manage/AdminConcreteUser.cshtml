@@ -1,0 +1,42 @@
+﻿@using Library.Models
+@model ApplicationUser
+@{
+    ViewBag.Title = "Пользователь";
+}
+
+<a class="btn btn-default" style="margin-top:20px" href="@Url.Action("AllUsersList")">Назад</a>
+
+<h2>Информация о пользователе</h2>
+
+<h4>Имя: @Model.FirstName</h4>
+<h4>Фамилия: @Model.LastName</h4>
+<h4>Email: @Model.Email</h4>
+
+@using (Html.BeginForm("AdminDeleteUser", "Manage", new { userId = Model.Id }, FormMethod.Post))
+{
+    <a class="btn btn-warning" href="@Url.Action("EditUser", new { userId = Model.Id })">Редактировать</a>
+    <input type="submit" class="btn btn-danger" value="Удалить" />
+}
+
+<h2>Выданные книги</h2>
+
+@if (Model.Books is null || Model.Books.Count == 0)
+{
+    <h3>Отсутствуют</h3>
+}
+
+else
+{
+    <table width="30%" style="border-collapse: collapse; width: auto" border="1">
+        <tr><th align="center">Название книги</th><th align="center">Автор(-ы)</th><th>Дата выдачи</th></tr>
+        @foreach (var book in Model.Books)
+        {
+            <tr style="padding-bottom: 10px">
+                <td align="center" style="padding: 3px">@book.Name</td>
+                <td align="center" style="padding: 3px">@book.Authors</td>
+                <td align="center" style="padding: 3px">@String.Format("{0:dd.MM.yyyy}", book.GiveDate)</td>
+                <td align="center" style="padding: 3px"><a href="@Url.Action("AcceptBook", "Manage", new { id = book.BookId })" class="btn btn-success btn-sm">Принять</a></td>
+            </tr>
+        }
+    </table>
+}

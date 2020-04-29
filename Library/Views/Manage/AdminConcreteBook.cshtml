@@ -1,0 +1,27 @@
+﻿@using Library.Models
+
+@model Book
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+@if (Session["LastListAction"].ToString() == "ListBooks")
+{
+    <a class="btn btn-default" style="margin-top:20px"
+       href="@Url.Action(Session["LastListAction"].ToString(), Session["Controller"].ToString(),
+            new { searchString = Session["Search"].ToString(), page = int.Parse(Session["Page"].ToString()) })">Назад</a>
+}
+else
+{
+    <a class="btn btn-default" style="margin-top:20px"
+       href="@Url.Action(Session["LastListAction"].ToString(), Session["Controller"].ToString())">Назад</a>
+}
+
+<h2>@Model.Name <a class="btn btn-warning btn-sm" href="@Url.Action("AdminEditBook", new { id = Model.BookId })">Ред.</a></h2>
+
+<p>@Model.Authors</p>
+
+<img width="300" height="420" src='@Url.Action("GetPhoto", "Home", new { id = Model.BookId })' />
+
+<p><a class="btn btn-success" style="margin-top:20px" href="@Url.Action("ChooseBookGetter", new { bookId = Model.BookId })">Выдать</a></p>

@@ -1,0 +1,49 @@
+﻿@using Library.Models
+
+@model IEnumerable<Book>
+@{
+    ViewBag.Title = "Книги";
+}
+
+<a class="btn btn-default" style="margin-top:20px" href="@Url.Action("AdminIndex")">Назад</a>
+
+<h2>Книги</h2>
+
+<a style="margin-bottom:15px" class="btn btn-success" href="@Url.Action("AdminAddBook")">Добавить</a>
+
+<table class="table table-bordered" style="border-color:black">
+    <thead>
+        <tr>
+            <th style="border-color:black; text-align:center" scope="col"><h4>Фото</h4></th>
+            <th style="border-color:black" scope="col"><h4><a href="@Url.Action("AllBooksList", "Manage", new { sortByName = true })">Название</a></h4></th>
+            <th style="border-color:black" scope="col"><h4><a href="@Url.Action("AllBooksList", "Manage", new { sortByAuthors = true })">Авторы</a></h4></th>
+            <th style="border-color:black" scope="col"><h4><a href="@Url.Action("AllBooksList", "Manage", new { sortByStatus = true })">Статус</a></h4></th>
+            <th style="border-color:black; text-align:center" scope="col"><h4>Действия</h4></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+        <tr>
+            <td style="border-color:black"><img width="50" height="75" src="@Url.Action("GetPhoto", "Home", new { id = book.BookId })" /></td>
+            <td style="border-color:black; vertical-align:middle" width="450"><h4><a href="@Url.Action("AdminConcreteBook", new { id = book.BookId })">@book.Name</a></h4></td>
+            <td style="border-color:black; vertical-align:middle" width="350"><h4>@book.Authors</h4></td>
+            @if (book.User is null)
+            {
+                <td style="border-color:black; text-align:center; vertical-align:middle; background:#68f7cc7b">Доступна</td>
+            }
+            else
+            {
+                <td style="border-color:black; text-align:center; vertical-align:middle; background:#f5535362">Выдана</td>
+            }
+            <td style="border-color:black; vertical-align:middle; text-align:center">
+                @using (Html.BeginForm("AdminDeleteBook", "Manage", new { id = book.BookId }, FormMethod.Post))
+                {
+                    <a class="btn btn-warning" style="margin-right:15px; vertical-align:middle" href="@Url.Action("AdminEditBook", new { id = book.BookId })">Редакт.</a>
+                    <input type="submit" class="btn btn-danger" style="vertical-align:middle" value="Удалить" />
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

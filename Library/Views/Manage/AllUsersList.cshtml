@@ -1,0 +1,25 @@
+﻿@using Library.HtmlHelpers
+@model Library.Models.UsersListViewModel
+
+@{
+    ViewBag.Title = "Пользователи";
+}
+
+<a class="btn btn-default" style="margin-top:20px" href="@Url.Action("AdminIndex")">Назад</a>
+
+<h2>Пользователи</h2>
+
+<form asp-controller="Home" asp-action="ListBooks">
+    <p style="padding-bottom: 10px">
+        <input type="text" name="SearchString">
+        <input type="submit" value="Искать" />
+    </p>
+</form>
+
+<div>
+    @Html.UserLinks(Model.Users, x => Url.Action("AdminConcreteUser", new { userId = x }), true)
+</div>
+
+<div style="margin-top:15px">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("AllUsersList", new { page = x }))
+</div>

@@ -1,0 +1,12 @@
+﻿@using Library.Models
+@model Book
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h2>@Model.Name</h2> 
+
+<p>@Model.Authors</p>
+
+<img src='@Url.Action("GetPhoto", "Home", new { id = Model.BookId })' />
